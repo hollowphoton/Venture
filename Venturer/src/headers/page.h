@@ -8,6 +8,7 @@ This is the header file for the page class
 
 //headers
 #include <string>
+#include <vector>
 
 //page choice class
 class pageChoice
@@ -16,12 +17,11 @@ public:
 	//vars
 	int choice_id = 0;
 	std::string choice_text;
-	std::string choice_done;
+	std::string choice_past;
 	int room_dest = 0;
-	//constructor
-	pageChoice();
 	//methods
-protected:
+	pageChoice(); //constructor
+	~pageChoice(); //destructor
 private:
 };
 
@@ -32,14 +32,15 @@ public:
 	//vars
 	int room_id = 0;
 	std::string room_type;
-	std::string room_text;
-	std::string room_img;
-	//pageChoice choices[];
-	//constructor
-	bookPage();
+	const char* room_text;
+	const char* room_img;
+	std::vector<pageChoice> choices;
 	//methods
-protected:
+	bookPage(); //constructor
+	~bookPage(); //destructor
+	void makeFake(); //assign demo book page vars
+	void load(); //load the page 
 private:
 };
 
-#endif //end definition check
+#endif

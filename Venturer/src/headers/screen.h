@@ -22,9 +22,14 @@ public:
 	SDL_Texture* imgTexture;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	int imgWidth;
+	int imgHeight;
 	//methods
 	Screen(const char* windowTitle, int width, int height); //constructor
 	~Screen(); //destructor
+	void prepText(const char* textString);
+	void prepImg(const char* imgPath);
+	void drawPage();
 private:
 };
 

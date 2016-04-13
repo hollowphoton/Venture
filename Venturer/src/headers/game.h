@@ -16,15 +16,11 @@ class Game
 public:
 	//vars
 	bool quit = false;
-	int texW;
-	int texH;
 	//methods
 	Game(); //constructor
 	~Game(); //destructor
 	void gameLoop(); //main game loop
 private:
-	const char* pageTextString;
-	const char* pageImgPath;
 };
 
 #endif
