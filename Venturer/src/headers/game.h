@@ -16,6 +16,7 @@ class Game
 public:
 	//vars
 	bool quit = false;
+
 	//methods
 	Game(); //constructor
 	~Game(); //destructor

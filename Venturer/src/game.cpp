@@ -35,23 +35,15 @@ Game::~Game() {
 //game loop
 void Game::gameLoop() {
 
-		//init screen
-		Screen screen("Venturer - A Choose Your Own Adventure", 1280, 720);
-		SDL_Event event;
+		//init window
+			//init screen
+			Screen screen("Venturer - A Choose Your Own Adventure", 1600, 900);
+			SDL_Event event;
 
-		//create & load fake bookPage
+		//create/load/draw fake bookPage
 		bookPage curPage;
 		curPage.makeFake();
-
-		//prep text & img (CAN BE MOVED IF WE PASS THE SCREEN TO PAGE.CPP) (simplify it as curPage.draw();)
-		screen.prepText(curPage.room_text);
-		screen.prepImg(curPage.room_img);
-
-		//plan size of text box (THIS NEEDS TO GO TOO, fix first)
-		curPage.imgWidth = 0;
-		this->texH = 0;
-		SDL_QueryTexture(screen.textTexture, NULL, NULL, &this->texW, &this->texH);
-		SDL_Rect dstrect = { 430, 10, this->texW, this->texH };
+		curPage.load(screen);
 
 		//draw loop
 		while (!this->quit)
@@ -63,44 +55,7 @@ void Game::gameLoop() {
 				this->quit = true;
 				break;
 			}
-			//draw text to screen
-			SDL_RenderCopy(screen.renderer, screen.textTexture, NULL, &dstrect);
-			SDL_RenderPresent(screen.renderer);
-			//draw image to screen
-			SDL_Rect dstrect = { 15,173,400,373 };
-			SDL_RenderCopy(screen.renderer, screen.imgTexture, NULL, &dstrect);
-			SDL_RenderPresent(screen.renderer);
+
 		}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//NEEED:
-//IMG_Init(IMG_INIT_PNG);
-//IMG_Quit();

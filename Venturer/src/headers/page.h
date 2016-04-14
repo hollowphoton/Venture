@@ -7,6 +7,7 @@ This is the header file for the page class
 #define PAGE_H
 
 //headers
+#include "headers/screen.h"
 #include <string>
 #include <vector>
 
@@ -35,11 +36,24 @@ public:
 	const char* room_text;
 	const char* room_img;
 	std::vector<pageChoice> choices;
+	bool hasImg;
+	int imgWidth;
+	int imgHeight;
+	int imgBuffer;
+	double imgXYRatio;
+	int txtWidth;
+	int txtHeight;
+	int txtBuffer;
+	int txtSpace;
+	int txtSize;
+	int divider;
+	SDL_Rect txtRect;
+	SDL_Rect imgRect;
 	//methods
 	bookPage(); //constructor
 	~bookPage(); //destructor
 	void makeFake(); //assign demo book page vars
-	void load(); //load the page 
+	void load(Screen &screen); //load the page 
 private:
 };
 

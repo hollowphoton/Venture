@@ -9,12 +9,7 @@ the helpful features and systems that most modern games employ.
 
 ===============================-UP NEXT-===============================
 Next:
--finalize the class structure for
-	-game
-	-screen
--finish the page class
-	-put image path and text in there
-	-give them their own drawing commands
+-check out SDL2_gfx for better image scaling!
 
 Later:
 -add in RapidXML library
@@ -26,6 +21,13 @@ Later:
 
 
 ===============================-CHANGES-===============================
+2016-04-13
+----------
+-moved lots of stuff out of game class and into the page class, added:
+	-auto text scaling based on game res
+	-auto image scaling based on game res
+	-auto placement of image and text based on game res
+
 2016-04-12
 ----------
 -redid entire project from scratch

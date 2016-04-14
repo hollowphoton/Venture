@@ -18,18 +18,18 @@ class Screen
 public:
 	//vars
 	SDL_Surface* surface;
-	SDL_Texture* textTexture;
+	SDL_Texture* txtTexture;
 	SDL_Texture* imgTexture;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	int imgWidth;
-	int imgHeight;
+	int resX;
+	int resY;
 	//methods
 	Screen(const char* windowTitle, int width, int height); //constructor
 	~Screen(); //destructor
-	void prepText(const char* textString);
+	void prepText(const char* textString, int widthCap, int fontSize);
 	void prepImg(const char* imgPath);
-	void drawPage();
+	void drawPage(bool printImg, SDL_Rect txtRect, SDL_Rect imgRect);
 private:
 };
 

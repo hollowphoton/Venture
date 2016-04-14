@@ -9,6 +9,6 @@ MAIN - only the bare necessities, everything starts and ends here
 //main
 int main(int argc, char *argv[])
 {
-	Game venturer; //initialize game loop
+	Game game; //initialize game loop
 	return 0; //exit
 }
