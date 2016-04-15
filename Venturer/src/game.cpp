@@ -39,6 +39,7 @@ void Game::gameLoop() {
 			//init screen
 			Screen screen("Venturer - A Choose Your Own Adventure", 1600, 900);
 			SDL_Event event;
+			SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 
 		//create/load/draw fake bookPage
 		bookPage curPage;

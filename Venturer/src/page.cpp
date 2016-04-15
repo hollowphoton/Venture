@@ -55,53 +55,65 @@ This class controls the displaying of book pages, including:
 	//load
 	void bookPage::load(Screen &screen) {
 
+		//init vars
+		int imgWidth; //image size x
+		int imgHeight; //image size y
+		int imgBuffer; //img vertical buffer
+		double imgXYRatio; //img x/y ratio
+		int txtSize; //txt font size
+		int divider; //pixel size of divider between all screen elements
+		int txtWidth; //text pixel width
+		int txtHeight; //text pixel height
+		int txtBuffer; //text vertical buffer
+		int txtSpace; //allotted space that fits text
+
 		//set divider & font size
-		this->divider = screen.resY / 36;
-		this->txtSize = screen.resY / 45;
+		divider = screen.resY / 36;
+		txtSize = screen.resY / 45;
 
 		//prep img (if image exists)
 		if (this->hasImg == true) {
 			//call screen function
 			screen.prepImg(this->room_img);
 			//get image resolution & ratio
-			SDL_QueryTexture(screen.imgTexture, NULL, NULL, &this->imgWidth, &this->imgHeight);
-			this->imgXYRatio = (double(this->imgWidth) / double(this->imgHeight));
+			SDL_QueryTexture(screen.imgTexture, NULL, NULL, &imgWidth, &imgHeight);
+			imgXYRatio = (double(imgWidth) / double(imgHeight));
 			//scale image to fill the same screen space
-			this->imgWidth = screen.resX / 3.2;
-			this->imgHeight = this->imgWidth / this->imgXYRatio;
+			imgWidth = int(screen.resX / 3.2);
+			imgHeight = int(imgWidth / imgXYRatio);
 		}
 
 		// calculate text space (window resX - 3 blank dividers of 20 pixels - imgWidth) - if no image, account for that
 		if (this->hasImg == true) {
-			this->txtSpace = screen.resX - ((this->divider * 3) + imgWidth);
+			txtSpace = screen.resX - ((divider * 3) + imgWidth);
 		}
 		else {
-			this->txtSpace = screen.resX - (this->divider * 2);
+			txtSpace = screen.resX - (divider * 2);
 		}
 
 		//prep text
-		screen.prepText(this->room_text, this->txtSpace, this->txtSize);
+		screen.prepText(this->room_text, txtSpace, txtSize);
 
 		//get text resolution
-		SDL_QueryTexture(screen.txtTexture, NULL, NULL, &this->txtWidth, &this->txtHeight);
+		SDL_QueryTexture(screen.txtTexture, NULL, NULL, &txtWidth, &txtHeight);
 
 		//adjust the placement of the text and image so they are centered
 			//determine if there is an image - to account for centering
 			if (this->hasImg == true) {
 				//calculate text vertical buffer
-				this->txtBuffer = ((screen.resY - (this->divider * 2)) - this->txtHeight) / 2;
+				txtBuffer = ((screen.resY - (divider * 2)) - txtHeight) / 2;
 				//calculate text vertical buffer
-				this->imgBuffer = ((screen.resY - (this->divider * 2)) - this->imgHeight) / 2;
+				imgBuffer = ((screen.resY - (divider * 2)) - imgHeight) / 2;
 				//set text placement
-				this->txtRect = { ((this->divider * 2)+ this->imgWidth), this->txtBuffer, this->txtWidth, this->txtHeight };
+				this->txtRect = { ((divider * 2)+ imgWidth), txtBuffer, txtWidth, txtHeight };
 				//set image placement
-				this->imgRect = { this->divider, this->imgBuffer, this->imgWidth, this->imgHeight };
+				this->imgRect = { divider, imgBuffer, imgWidth, imgHeight };
 			}
 			else {
 				//calculate text vertical buffer
-				this->txtBuffer = ((screen.resY - (this->divider * 2)) - this->txtHeight) / 2;
+				txtBuffer = ((screen.resY - (divider * 2)) - txtHeight) / 2;
 				//set text placement
-				this->txtRect = { this->txtBuffer, this->divider, this->txtWidth, this->txtHeight };
+				this->txtRect = { txtBuffer, divider, txtWidth, txtHeight };
 			}
 
 		//call draw page

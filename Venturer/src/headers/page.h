@@ -7,7 +7,10 @@ This is the header file for the page class
 #define PAGE_H
 
 //headers
+#include "rapidxml.hpp"
 #include "headers/screen.h"
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -31,24 +34,14 @@ class bookPage
 {
 public:
 	//vars
-	int room_id = 0;
-	std::string room_type;
-	const char* room_text;
-	const char* room_img;
-	std::vector<pageChoice> choices;
-	bool hasImg;
-	int imgWidth;
-	int imgHeight;
-	int imgBuffer;
-	double imgXYRatio;
-	int txtWidth;
-	int txtHeight;
-	int txtBuffer;
-	int txtSpace;
-	int txtSize;
-	int divider;
-	SDL_Rect txtRect;
-	SDL_Rect imgRect;
+	int room_id = 0; //page number
+	std::string room_type; //page type
+	const char* room_text; //page text
+	const char* room_img; //page image
+	std::vector<pageChoice> choices; //choice array
+	bool hasImg; //image true/false
+	SDL_Rect txtRect; //final text coordinates
+	SDL_Rect imgRect; //final image coordinates
 	//methods
 	bookPage(); //constructor
 	~bookPage(); //destructor

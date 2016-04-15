@@ -17,6 +17,9 @@ Screen::Screen(const char* title, int width, int height) {
 	SDL_SetWindowTitle(this->window, title);
 	this->resX = width;
 	this->resY = height;
+	//draw background
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderClear(renderer);
 }
 
 //destructor
@@ -29,7 +32,7 @@ Screen::~Screen() {
 
 //prep text
 void Screen::prepText(const char* textString, int widthCap, int fontSize) {
-	this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", fontSize), textString, { 190,190,190 }, widthCap);
+	this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", fontSize), textString, { 100,100,100 }, widthCap);
 	this->txtTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 }
 

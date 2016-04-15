@@ -18,6 +18,7 @@ class Screen
 public:
 	//vars
 	SDL_Surface* surface;
+	SDL_Texture* backTexture;
 	SDL_Texture* txtTexture;
 	SDL_Texture* imgTexture;
 	SDL_Window* window;
