@@ -120,3 +120,24 @@ This class controls the displaying of book pages, including:
 		screen.drawPage(this->hasImg,this->txtRect, this->imgRect);
 
 	}
+
+	//ingest XML [CHANGE TO JUST GRAB A SINGLE PAGE FROM THERE]
+	int ingestXML() {
+
+		//rip xml into string
+			//init vars
+			std::ifstream xmlFile("./xml/the_cave_of_time.xml");
+			std::stringstream xmlBuffer;
+			//read into buffer
+			xmlBuffer << xmlFile.rdbuf();
+			xmlFile.close();
+			//assign buffer to string
+			std::string xmlBook = xmlBuffer.str();
+		//parse
+			//boot up rapidXML and eat string
+			rapidxml::xml_document<> xml;
+			xml.parse<0>((char*)&xmlBook[0]);
+			//find main node
+			rapidxml::xml_node<> * root_node = xml.first_node("book");
+			if (root_node == 0) return -1;
+	}

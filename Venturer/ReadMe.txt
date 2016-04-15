@@ -9,18 +9,24 @@ the helpful features and systems that most modern games employ.
 
 ===============================-UP NEXT-===============================
 Next:
--check out SDL2_gfx for better image scaling!
+-complete ingest of XML with book info (text, choices, destination)
 
 Later:
--add in RapidXML library
--ingest XML with book info (page text, choices, destination)
--finalize the class structure for
-	-Page
-	-Choice
 -add in page 1 and other book titles to plan
+-intro titles
 
 
 ===============================-CHANGES-===============================
+2016-04-14
+----------
+-fixed image scaling, ended up changing a renderer setting
+-updated page and screen class - near final
+-redid XML automation (Excel) to add page number to the main node
+-started XML ingestion
+	-decided to go with opening the xml each time page loads
+	-not sure if this is a good choice?
+	-should I keep all of the xml file in memory?
+
 2016-04-13
 ----------
 -moved lots of stuff out of game class and into the page class, added:

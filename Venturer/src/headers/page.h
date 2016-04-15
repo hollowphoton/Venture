@@ -45,6 +45,7 @@ public:
 	//methods
 	bookPage(); //constructor
 	~bookPage(); //destructor
+	void ingestXML(); //eat book xml
 	void makeFake(); //assign demo book page vars
 	void load(Screen &screen); //load the page 
 private:
