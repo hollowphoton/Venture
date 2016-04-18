@@ -10,6 +10,7 @@ This is the header file for the screen class
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
+#include "headers/page.h"
 #include <string>
 
 //screen manager class
@@ -23,6 +24,8 @@ public:
 	SDL_Texture* imgTexture;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	SDL_Rect txtRect;
+	SDL_Rect imgRect;
 	int resX;
 	int resY;
 	//methods
@@ -30,7 +33,8 @@ public:
 	~Screen(); //destructor
 	void prepText(const char* textString, int widthCap, int fontSize);
 	void prepImg(const char* imgPath);
-	void drawPage(bool printImg, SDL_Rect txtRect, SDL_Rect imgRect);
+	void drawPage(bool hasImg, std::string imgPos, const char* imgPath, const char* textString, std::vector<Choice> choices);
+	void draw2screen(bool printImg, SDL_Rect txtRect, SDL_Rect imgRect);
 private:
 };
 

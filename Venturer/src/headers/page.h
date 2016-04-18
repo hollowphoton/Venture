@@ -9,46 +9,56 @@ This is the header file for the page class
 //headers
 #include "rapidxml.hpp"
 #include "headers/screen.h"
-#include <fstream>
-#include <sstream>
 #include <string>
 #include <vector>
 
-//page choice class
-class pageChoice
+//-----------------------choice class------------------------//
+class Choice
 {
 public:
 	//vars
-	int choice_id = 0;
-	std::string choice_text;
-	std::string choice_past;
-	int room_dest = 0;
+	int id;
+	std::string text;
+	std::string past;
+	int dest;
 	//methods
-	pageChoice(); //constructor
-	~pageChoice(); //destructor
-private:
+	Choice(); //constructor
+	~Choice(); //destructor
 };
+//-----------------------------------------------------------//
 
-//book page class
-class bookPage
+//------------------------page class-------------------------//
+class Page
 {
 public:
 	//vars
-	int room_id = 0; //page number
-	std::string room_type; //page type
-	const char* room_text; //page text
-	const char* room_img; //page image
-	std::vector<pageChoice> choices; //choice array
+	int id; //page number
+	std::string type; //page type
+	const char* text; //page text
+	const char* img; //page image
+	std::vector<Choice> choices; //choice array
 	bool hasImg; //image true/false
-	SDL_Rect txtRect; //final text coordinates
-	SDL_Rect imgRect; //final image coordinates
+	std::string imgPos; //image position on screen
 	//methods
-	bookPage(); //constructor
-	~bookPage(); //destructor
-	void ingestXML(); //eat book xml
+	Page(); //constructor
+	~Page(); //destructor
 	void makeFake(); //assign demo book page vars
-	void load(Screen &screen); //load the page 
 private:
 };
+//-----------------------------------------------------------//
+
+//---------------------book class----------------------------//
+class Book
+{
+public:
+	//vars
+	std::vector<Page> pages; //page array
+	//methods
+	Book(std::string xmlPath); //constructor
+	~Book(); //destructor
+	int load(Screen &screen, int pageNum); //load a page 
+private:
+};
+//-----------------------------------------------------------//
 
 #endif

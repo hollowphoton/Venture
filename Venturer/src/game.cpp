@@ -37,14 +37,19 @@ void Game::gameLoop() {
 
 		//init window
 			//init screen
-			Screen screen("Venturer - A Choose Your Own Adventure", 1600, 900);
+			Screen screen("Venturer - A Choose Your Own Adventure", 1920, 1080);
 			SDL_Event event;
 			SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 
-		//create/load/draw fake bookPage
-		bookPage curPage;
-		curPage.makeFake();
-		curPage.load(screen);
+		//create The Cave of Time book from xml
+		Book TheCaveOfTime("/xml/the_cave_of_time.xml");
+
+		//load up hollow photon logo                                                                //WORK ON
+
+		//load up game intro title                                                                //WORK ON
+
+		//load up the first page
+		TheCaveOfTime.load(screen, 0);
 
 		//draw loop
 		while (!this->quit)

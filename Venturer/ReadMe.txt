@@ -9,14 +9,35 @@ the helpful features and systems that most modern games employ.
 
 ===============================-UP NEXT-===============================
 Next:
--complete ingest of XML with book info (text, choices, destination)
+-make formatting identical across all .h and .cpp files
+	-like page.h and page.cpp
+-add header image to screen method
+-make 3 paths for imgPos: left,right,top (L+R should use same code)
+-create book methods:
+	-ingest xml and create book
+		-only create specified number of pages
+		-only create specified number of choices
 
 Later:
--add in page 1 and other book titles to plan
--intro titles
+-add in hp intro, title, and cyoa intro slide
+-preload images possible?
 
 
 ===============================-CHANGES-===============================
+2016-04-17
+----------
+-finished photoshopping all page images
+-updated and finalized xml macro
+-created final xml file for Cave of Time
+-simplified page class (-> book class & screen class)
+-created book class to house pages
+
+2016-04-16
+----------
+-simplified the xml format that the Excel macro produces
+-worked a bit on the XML ingestion
+-worked on photoshoping page images
+
 2016-04-14
 ----------
 -fixed image scaling, ended up changing a renderer setting
