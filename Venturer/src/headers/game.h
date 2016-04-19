@@ -10,7 +10,7 @@ This is the header file for the game class
 //headers
 #include "headers/screen.h"
 
-//game loop class
+//------------------------game class------------------------//
 class Game
 {
 public:

@@ -13,28 +13,21 @@ This is the header file for the screen class
 #include "headers/page.h"
 #include <string>
 
-//screen manager class
+//-----------------------screen class------------------------//
 class Screen
 {
 public:
 	//vars
 	SDL_Surface* surface;
-	SDL_Texture* backTexture;
-	SDL_Texture* txtTexture;
-	SDL_Texture* imgTexture;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Rect txtRect;
-	SDL_Rect imgRect;
 	int resX;
 	int resY;
 	//methods
 	Screen(const char* windowTitle, int width, int height); //constructor
 	~Screen(); //destructor
-	void prepText(const char* textString, int widthCap, int fontSize);
-	void prepImg(const char* imgPath);
-	void drawPage(bool hasImg, std::string imgPos, const char* imgPath, const char* textString, std::vector<Choice> choices);
-	void draw2screen(bool printImg, SDL_Rect txtRect, SDL_Rect imgRect);
+	void drawPage(bool hasImg, pageLayout imgPos, pageType pgType, const char* imgPath, const char* textString, std::vector<Choice> choiceArray);
+	void draw2screen(SDL_Texture* thing, SDL_Rect place);
 private:
 };
 

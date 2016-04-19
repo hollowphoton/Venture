@@ -9,21 +9,26 @@ the helpful features and systems that most modern games employ.
 
 ===============================-UP NEXT-===============================
 Next:
--make formatting identical across all .h and .cpp files
-	-like page.h and page.cpp
--add header image to screen method
--make 3 paths for imgPos: left,right,top (L+R should use same code)
--create book methods:
-	-ingest xml and create book
-		-only create specified number of pages
-		-only create specified number of choices
+-make a playable game!
 
 Later:
+-add header image to screen method
 -add in hp intro, title, and cyoa intro slide
 -preload images possible?
+-do i need to pass 'screen' with the book.load() function?
+-delete makeFake()
 
 
 ===============================-CHANGES-===============================
+2016-04-18
+----------
+-added ENUMs for pageLayout and pageType
+-wrote first draft of game loop using a switch
+-added keypress detection for 1,2,3,4 for choices
+-made formatting identical across all .h and .cpp files
+-made page load paths: left, right, top, none
+-built XML ingestor that sits inside the book constructor
+
 2016-04-17
 ----------
 -finished photoshopping all page images

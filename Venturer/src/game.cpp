@@ -12,56 +12,139 @@ This class controls the main game loop, including:
 #include "headers/screen.h"
 #include "headers/page.h"
 
-//constructor
-Game::Game() {
+//---------------------------------------page class--------------------------------------//
+	//constructor
+	Game::Game() {
 
-	//init SDL
-		//video
-		SDL_Init(SDL_INIT_VIDEO);
-		//fonts
-		TTF_Init();
-		//img (png)
-		IMG_Init(IMG_INIT_PNG);
+		//init SDL
+			//video
+			SDL_Init(SDL_INIT_VIDEO);
+			//fonts
+			TTF_Init();
+			//img (png)
+			IMG_Init(IMG_INIT_PNG);
 
-	//start game loop
-	this->gameLoop();
-}
+		//start game loop
+		this->gameLoop();
+	}
 
-//destructor
-Game::~Game() {
+	//destructor
+	Game::~Game() {
 
-}
+	}
 
-//game loop
-void Game::gameLoop() {
+	//game loop
+	void Game::gameLoop() {
 
-		//init window
-			//init screen
-			Screen screen("Venturer - A Choose Your Own Adventure", 1920, 1080);
-			SDL_Event event;
-			SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
+		//init vars
+		int curPage = 0;
+
+		//init window & settings
+		Screen screen("Venturer - A Choose Your Own Adventure", 1920, 1080);
+		SDL_Event event;
+		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 
 		//create The Cave of Time book from xml
-		Book TheCaveOfTime("/xml/the_cave_of_time.xml");
+		Book TheCaveOfTime("xml/the_cave_of_time.xml");
 
 		//load up hollow photon logo                                                                //WORK ON
 
-		//load up game intro title                                                                //WORK ON
-
-		//load up the first page
-		TheCaveOfTime.load(screen, 0);
+		//load up game intro title                                                                  //WORK ON
 
 		//draw loop
 		while (!this->quit)
 		{
-			SDL_WaitEvent(&event);
-			switch (event.type)
+
+			//determine state of the game
+			switch (TheCaveOfTime.pages[curPage].type)
 			{
-			case SDL_QUIT:
-				this->quit = true;
-				break;
+
+				//if current page is a choice
+				case CHOICE:
+					//load up the page
+					TheCaveOfTime.load(screen, curPage);
+					//wait for next event
+					SDL_WaitEvent(&event);
+					//event handler
+					switch (event.type)
+					{
+						//if window is forceably closed
+					case SDL_QUIT:
+						this->quit = true;
+						break;
+						//if 1 is pressed and an option for 1 exists
+					case SDLK_1:
+						//check if option exists
+						if (TheCaveOfTime.pages[curPage].choices.size() >= 1) {
+							//set new curPage
+							curPage = TheCaveOfTime.pages[curPage].choices[0].dest;
+						}
+						break;
+						//if 2 is pressed and an option for 2 exists
+					case SDLK_2:
+						//check if option exists
+						if (TheCaveOfTime.pages[curPage].choices.size() >= 2) {
+							//set new curPage
+							curPage = TheCaveOfTime.pages[curPage].choices[1].dest;
+						}
+						break;
+						//if 3 is pressed and an option for 3 exists
+					case SDLK_3:
+						//check if option exists
+						if (TheCaveOfTime.pages[curPage].choices.size() >= 3) {
+							//set new curPage
+							curPage = TheCaveOfTime.pages[curPage].choices[2].dest;
+						}
+						break;
+						//if 4 is pressed and an option for 4 exists
+					case SDLK_4:
+						//check if option exists
+						if (TheCaveOfTime.pages[curPage].choices.size() >= 4) {
+							//set new curPage
+							curPage = TheCaveOfTime.pages[curPage].choices[3].dest;
+						}
+						break;
+					}
+					break;
+
+				//if current page is a continue
+				case CONTINUE:
+					//load up the page
+					TheCaveOfTime.load(screen, curPage);
+					//wait for next event
+					SDL_WaitEvent(&event);
+					//event handler
+					switch (event.type)
+					{
+						//if window is forceably closed
+					case SDL_QUIT:
+						this->quit = true;
+						break;
+						//if 1 is pressed and an option for 1 exists
+					case SDLK_RETURN:
+						//set new curPage
+						curPage = TheCaveOfTime.pages[curPage].choices[0].dest;
+						break;
+					}
+					break;
+
+				//if current page is a doomed, death, new life, or return home (default)
+				default:
+					//we stop the loop here
+					TheCaveOfTime.load(screen, curPage);
+					//wait for next event
+					SDL_WaitEvent(&event);
+					//event handler
+					switch (event.type)
+					{
+						//if window is forceably closed
+					case SDL_QUIT:
+						this->quit = true;
+						break;
+					}
+					break;
 			}
 
 		}
 
-}
+	}
