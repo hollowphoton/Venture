@@ -8,24 +8,12 @@ This is the header file for the page class
 
 //headers
 #include "rapidxml.hpp"
-#include "headers/screen.h"
+#include "rapidxml_utils.hpp"
+#include "headers/global.h"
 #include <vector>
 
-//--------------------------enums----------------------------//
-enum pageType {
-	CHOICE,
-	CONTINUE,
-	DEATH,
-	DOOMED,
-	NEW_LIFE,
-	RETURN_HOME
-};
-enum pageLayout {
-	LEFT,
-	RIGHT,
-	TOP,
-	NONE
-};
+//forward includes
+class Screen;
 
 //-----------------------choice class------------------------//
 class Choice
@@ -52,11 +40,10 @@ public:
 	const char* img; //page image
 	std::vector<Choice> choices; //choice array
 	bool hasImg; //image true/false
-	pageLayout imgPos; //image position on screen
+	imageLayout imgPos; //image position on screen
 	//methods
 	Page(); //constructor
 	~Page(); //destructor
-	void makeFake(); //assign demo book page vars
 private:
 };
 
@@ -67,10 +54,12 @@ public:
 	//vars
 	std::vector<Page> pages; //page array
 	//methods
-	Book(const char* xmlPath); //constructor
+	Book(); //constructor
 	~Book(); //destructor
 	void load(Screen &screen, int pageNum); //load a page 
 private:
+	rapidxml::file<> bFile;
+	rapidxml::xml_document<> bDoc;
 };
 
 #endif

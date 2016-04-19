@@ -9,17 +9,37 @@ the helpful features and systems that most modern games employ.
 
 ===============================-UP NEXT-===============================
 Next:
--make a playable game!
+-add intro title for hollowphoton, the book name, and instructions page
+-add header
+-add mouse clicks for selecting options
+-make the book class have the xml path as a parameter again
 
 Later:
--add header image to screen method
--add in hp intro, title, and cyoa intro slide
 -preload images possible?
 -do i need to pass 'screen' with the book.load() function?
--delete makeFake()
-
+-make excel output the XML file? then we dont have to worry
+ about find/replace?
 
 ===============================-CHANGES-===============================
+2016-04-18 
+----------
+-realized the issue was data type conversion issues, fixed those
+-Got the window to render but \n and input doesnt work
+-Got inputs working! 
+-Had an issue with SDL objects not clearing, new pages wrote on top
+ of old ones. Fixed that with a new clearScreen() method
+-game now works and strange pixelated text issue is gone! It's playable
+-fixed issue with if statement comparing char* and string
+	-used if(strcompare(char*,string) ==0){} instead
+-fixed image scaling depending on portrait vs. landscape
+-fixed text placement bug when no image is on screen
+-fixed new line character formatting 
+-fixed issue with using wrong ENUM type in imageLayout check
+-increased size of TOP image to resY/2.25
+-fixed image scaling if default calc made it go off the page
+-deleted makeFake()
+-MADE THE FIRST PLAYABLE BUILD!!!! Feels good.
+
 2016-04-18
 ----------
 -added ENUMs for pageLayout and pageType
@@ -28,6 +48,18 @@ Later:
 -made formatting identical across all .h and .cpp files
 -made page load paths: left, right, top, none
 -built XML ingestor that sits inside the book constructor
+-made a map to translate strings to the ENUMs I created
+-patch after first run test:
+	-renamed pageLayout ENUM to imageLayout
+	-moved ENUMs to a global.h
+	-redid header #includes
+	-learned about forward includes and used a few of those
+	-removed an unused variable
+	-put an IF wrapper around draw image since its not always needed
+-realized the last error was in the XML ingestion
+	-found that the initial ingest was broken
+	-added file and doc as private vars in the book class
+	-still no luck
 
 2016-04-17
 ----------

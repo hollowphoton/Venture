@@ -32,6 +32,15 @@ This class controls SDL, including:
 		SDL_DestroyWindow(this->window);
 	}
 
+	//clean screen
+	void Screen::cleanScreen() {
+		//draw background
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_RenderClear(renderer);
+		//clear surface
+		SDL_FillRect(this->surface, NULL, 0x000000);
+	}
+
 	//draw page
 	void Screen::draw2screen(SDL_Texture* thing, SDL_Rect place) {
 		//draw text to screen
@@ -40,13 +49,17 @@ This class controls SDL, including:
 	}
 
 	//prep page
-	void Screen::drawPage(bool hasImg, pageLayout imgPos, pageType pgType, const char* imgPath, const char* textString, std::vector<Choice> choiceArray) {
+	void Screen::drawPage(bool hasImg, imageLayout imgPos, pageType pgType, const char* imgPath, const char* textString, std::vector<Choice> choiceArray) {
+
+		//clean screen
+		this->cleanScreen();
 
 		//init vars
 		int imgWidth; //image size x
 		int imgHeight; //image size y
 		int imgBuffer; //img vertical buffer
-		double imgXYRatio; //img x/y ratio
+		double imgRatio; //img x/y ratio
+		bool imgPortrait;
 		int txtSize; //txt font size
 		int sectionDivider; //pixel size of divider between all screen elements
 		int choiceDivider; //pixel size of divider between all screen elements
@@ -59,7 +72,6 @@ This class controls SDL, including:
 		int choiceSize; //total size of choices needed
 		int choiceMarkerX; //choice X axis marker
 		int choiceMarkerY; //choice Y axis marker
-		const char* choiceList; //string set of all choices
 		int vertBuffer; //buffer for TOP page layout
 
 		//init SDL objects
@@ -79,22 +91,72 @@ This class controls SDL, including:
 		if (hasImg == true) {
 			//draw image to surface
 			this->surface = IMG_Load(imgPath);
+			//create texture
 			imgTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 			//get image resolution & ratio
 			SDL_QueryTexture(imgTexture, NULL, NULL, &imgWidth, &imgHeight);
+			//determine if image is portrait or landscape, then calc 
+			if (imgWidth > imgHeight) {
+				imgPortrait = true;
+				imgRatio = (double(imgWidth) / double(imgHeight));
+			}
+			else {
+				imgPortrait = false;
+				imgRatio = (double(imgHeight) / double(imgWidth));
+			}
 			//prep image based on imgPos (left, right, or top)
 			if (imgPos == TOP) {
 				//calculate image scale (image on top)
-				imgXYRatio = (double(imgWidth) / double(imgHeight));
-				imgHeight = int(this->resY / 3);
-				imgWidth = int(imgHeight / imgXYRatio);
+				imgHeight = int(this->resY / 2.25);
+				//calculate width based on imgPortrait
+				if (imgPortrait == true) {
+					imgWidth = int(imgHeight * imgRatio);
+				}
+				else {
+					imgWidth = int(imgHeight / imgRatio);
+				}
+				//if imgWidth is too big for our screen, we need to recalculate
+				if (imgWidth > this->resX - (sectionDivider * 2)) {
+					//set imgWidth to max available
+					imgWidth = this->resX - (sectionDivider * 2);
+					//calculate width based on imgPortrait
+					if (imgPortrait == true) {
+						imgHeight = int(imgWidth / imgRatio);
+					}
+					else {
+						imgHeight = int(imgWidth * imgRatio);
+					}
+				}
 			}
 			else {
-				//calculate image scale (image on left or right)
-				imgXYRatio = (double(imgHeight) / double(imgWidth));
+				//calculate image scale (image on top)
 				imgWidth = int(this->resX / 3.2);
-				imgHeight = int(imgWidth / imgXYRatio);
+				//calculate height based on imgPortrait
+				if (imgPortrait == true) {
+					imgHeight = int(imgWidth / imgRatio);
+				}
+				else {
+					imgHeight = int(imgWidth * imgRatio);
+				}
+				//if imgHeight is too big for our screen, we need to recalculate
+				if (imgHeight > this->resY - (sectionDivider * 2)) {
+					//set imgWidth to max available
+					imgHeight = this->resY - (sectionDivider * 2);
+					//calculate width based on imgPortrait
+					if (imgPortrait == true) {
+						imgWidth = int(imgHeight * imgRatio);
+					}
+					else {
+						imgWidth = int(imgHeight / imgRatio);
+					}
+				}
 			}
+
+		}
+		else {
+			//load dummy image texture - it wont be used
+			this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "DUMMY IMAGE", { 100,100,100 }, 100);
+			imgTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 		}
 
 		//prep text (depending on hasImg)
@@ -109,6 +171,7 @@ This class controls SDL, including:
 
 		//draw page text to surface
 		this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), textString, { 100,100,100 }, txtSpace);
+		//create texture
 		txtTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 
 		//draw a single TEST string to surface to identify choice height
@@ -131,20 +194,20 @@ This class controls SDL, including:
 
 		//calculate placement of the text, image, and choices based on pageLayout
 		if (hasImg == true) {
-			if (pgType == LEFT || pgType == RIGHT) { //placement is LEFT or RIGHT
+			if (imgPos == LEFT || imgPos == RIGHT) { //placement is LEFT or RIGHT
 				//calculate buffers
 					//calculate text vertical buffer
 					txtBuffer = ((this->resY - (sectionDivider * 2)) - (txtHeight + choiceSize)) / 2;
 					//calculate image vertical buffer
 					imgBuffer = ((this->resY - (sectionDivider * 2)) - imgHeight) / 2;
 				//calculate Rects based on orientation
-				if (pgType == LEFT) {
+				if (imgPos == LEFT) {
 					//calculate txtRect
 					txtRect = { ((sectionDivider * 2) + imgWidth), txtBuffer, txtWidth, txtHeight };
 					//calculate imgRect
 					imgRect = { sectionDivider, imgBuffer, imgWidth, imgHeight };
 					//calculate choiceMarker
-					choiceMarkerX = ((sectionDivider * 2) + imgWidth));
+					choiceMarkerX = ((sectionDivider * 2) + imgWidth);
 					choiceMarkerY = (txtBuffer + txtHeight + choiceDivider);
 				}
 				else {
@@ -176,14 +239,17 @@ This class controls SDL, including:
 			//calculate text vertical buffer
 			txtBuffer = ((this->resY - (sectionDivider * 2)) - (txtHeight + choiceSize)) / 2;
 			//set text placement
-			txtRect = { txtBuffer, sectionDivider, txtWidth, txtHeight };
+			txtRect = { sectionDivider, txtBuffer, txtWidth, txtHeight };
 			//calculate choiceMarker
 			choiceMarkerX = sectionDivider;
 			choiceMarkerY = (txtBuffer + txtHeight + choiceDivider);
 		}
 
-		//draw image where its supposed to go
-		this->draw2screen(imgTexture, imgRect);
+		//do we need to draw an image?
+		if (hasImg == true) {
+			//draw image where its supposed to go
+			this->draw2screen(imgTexture, imgRect);
+		}
 
 		//draw text where its supposed to go
 		this->draw2screen(txtTexture, txtRect);
@@ -193,9 +259,10 @@ This class controls SDL, including:
 			//CHOICE
 			case CHOICE:
 				//loop and draw choices or endings
-				for (int i = 0; i < choiceArray.size(); i++) {
+				for (size_t i = 0; i < choiceArray.size(); i++) {
 					//draw choice to surface to identify choice height
-					this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), choiceArray[i].text, { 100,100,100 }, 100);
+					this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), choiceArray[i].text, { 100,100,100 }, txtSpace);
+					//create texture
 					choiceTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 					//get resolution of choiceTexture
 					SDL_QueryTexture(choiceTexture, NULL, NULL, &choiceWidth, &choiceHeight);
@@ -209,7 +276,8 @@ This class controls SDL, including:
 				break;
 			case CONTINUE:
 				//draw choice to surface to identify choice height
-				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "Press Enter to continue...", { 100,100,100 }, 100);
+				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "Press Enter to continue...", { 100,100,100 }, txtSpace);
+				//create texture
 				choiceTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 				//get resolution of choiceTexture
 				SDL_QueryTexture(choiceTexture, NULL, NULL, &choiceWidth, &choiceHeight);
@@ -221,7 +289,8 @@ This class controls SDL, including:
 				break;
 			case DEATH:
 				//draw choice to surface to identify choice height
-				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "YOU ARE DEAD", { 100,100,100 }, 100);
+				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "YOU ARE DEAD", { 100,100,100 }, txtSpace);
+				//create texture
 				choiceTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 				//get resolution of choiceTexture
 				SDL_QueryTexture(choiceTexture, NULL, NULL, &choiceWidth, &choiceHeight);
@@ -233,7 +302,8 @@ This class controls SDL, including:
 				break;
 			case DOOMED:
 				//draw choice to surface to identify choice height
-				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "YOU ARE DOOMED", { 100,100,100 }, 100);
+				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "YOU ARE DOOMED", { 100,100,100 }, txtSpace);
+				//create texture
 				choiceTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 				//get resolution of choiceTexture
 				SDL_QueryTexture(choiceTexture, NULL, NULL, &choiceWidth, &choiceHeight);
@@ -245,7 +315,8 @@ This class controls SDL, including:
 				break;
 			case NEW_LIFE:
 				//draw choice to surface to identify choice height
-				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "THE END", { 100,100,100 }, 100);
+				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "THE END", { 100,100,100 }, txtSpace);
+				//create texture
 				choiceTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 				//get resolution of choiceTexture
 				SDL_QueryTexture(choiceTexture, NULL, NULL, &choiceWidth, &choiceHeight);
@@ -257,7 +328,8 @@ This class controls SDL, including:
 				break;
 			case RETURN_HOME:
 				//draw choice to surface to identify choice height
-				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "THE END", { 100,100,100 }, 100);
+				this->surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/segoeuil.ttf", txtSize), "THE END", { 100,100,100 }, txtSpace);
+				//create texture
 				choiceTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
 				//get resolution of choiceTexture
 				SDL_QueryTexture(choiceTexture, NULL, NULL, &choiceWidth, &choiceHeight);
