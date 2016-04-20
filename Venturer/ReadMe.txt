@@ -37,7 +37,6 @@ Later:
  incorrectly due to imgPortrait being judged incorrectly.
 -fixed the vertical centering of page elements. It turned out to be an
  issue with missing sectionDivider vars in some formulas.
--made choices darker and a non-light font to make them stand out.
 
 2016-04-19
 ----------
