@@ -9,19 +9,37 @@ the helpful features and systems that most modern games employ.
 
 ===============================-UP NEXT-===============================
 Next:
+-text spacing for choices (after page txt) seems to differ page to page
+-make the page elements a little further away from the screen edge
 -add intro title for hollowphoton, the book name, and instructions page
 -add header
 -add mouse clicks for selecting options
 -make the book class have the xml path as a parameter again
 
 Later:
+-watch memory usage (currently sits bewtween 25-50MB)
 -preload images possible?
 -do i need to pass 'screen' with the book.load() function?
 -make excel output the XML file? then we dont have to worry
- about find/replace?
+ about find/replace? would be nice if it could auto-dump into the
+ project folders too.
 
 ===============================-CHANGES-===============================
-2016-04-18 
+2016-04-19 - Round II
+---------------------
+-created debug mode that runs through all possible pages (for testing)
+-fixed issue where pages were rendered in an infinite loop while it
+ waited for a key to be pressed. I now call the first page to be
+ rendered before the main quit loop, and only draw new pages when a
+ choice is made.
+-Crashes resolved: mouse movement, idle time
+-page draw issues occured with TOP layouts where the image was scaled
+ incorrectly due to imgPortrait being judged incorrectly.
+-fixed the vertical centering of page elements. It turned out to be an
+ issue with missing sectionDivider vars in some formulas.
+-made choices darker and a non-light font to make them stand out.
+
+2016-04-19
 ----------
 -realized the issue was data type conversion issues, fixed those
 -Got the window to render but \n and input doesnt work

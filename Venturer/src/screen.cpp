@@ -96,7 +96,7 @@ This class controls SDL, including:
 			//get image resolution & ratio
 			SDL_QueryTexture(imgTexture, NULL, NULL, &imgWidth, &imgHeight);
 			//determine if image is portrait or landscape, then calc 
-			if (imgWidth > imgHeight) {
+			if (imgHeight > imgWidth) {
 				imgPortrait = true;
 				imgRatio = (double(imgWidth) / double(imgHeight));
 			}
@@ -115,7 +115,7 @@ This class controls SDL, including:
 				else {
 					imgWidth = int(imgHeight / imgRatio);
 				}
-				//if imgWidth is too big for our screen, we need to recalculate
+				//if imgWidth is still too big for our screen, we need to recalculate
 				if (imgWidth > this->resX - (sectionDivider * 2)) {
 					//set imgWidth to max available
 					imgWidth = this->resX - (sectionDivider * 2);
@@ -129,7 +129,7 @@ This class controls SDL, including:
 				}
 			}
 			else {
-				//calculate image scale (image on top)
+				//calculate image scale (image on right or left)
 				imgWidth = int(this->resX / 3.2);
 				//calculate height based on imgPortrait
 				if (imgPortrait == true) {
@@ -138,7 +138,7 @@ This class controls SDL, including:
 				else {
 					imgHeight = int(imgWidth * imgRatio);
 				}
-				//if imgHeight is too big for our screen, we need to recalculate
+				//if imgHeight is still too big for our screen, we need to recalculate
 				if (imgHeight > this->resY - (sectionDivider * 2)) {
 					//set imgWidth to max available
 					imgHeight = this->resY - (sectionDivider * 2);
@@ -160,7 +160,7 @@ This class controls SDL, including:
 		}
 
 		//prep text (depending on hasImg)
-		if (hasImg == true) {
+		if (hasImg == true && (imgPos == LEFT|| imgPos == RIGHT)) {
 			//calculate text space based on image being present
 			txtSpace = this->resX - ((sectionDivider * 3) + imgWidth);
 		}
@@ -182,7 +182,7 @@ This class controls SDL, including:
 		SDL_QueryTexture(txtTexture, NULL, NULL, &txtWidth, &txtHeight);
 		SDL_QueryTexture(choiceTexture, NULL, NULL, &choiceWidth, &choiceHeight);
 
-		//calculate size needed for drawing fullchoiceTexture
+		//calculate size needed for drawing choice texture(s)
 		if (pgType == CHOICE) {
 			//adjust for number of choices
 			choiceSize = int(choiceArray.size() * (choiceHeight + choiceDivider));
@@ -197,52 +197,52 @@ This class controls SDL, including:
 			if (imgPos == LEFT || imgPos == RIGHT) { //placement is LEFT or RIGHT
 				//calculate buffers
 					//calculate text vertical buffer
-					txtBuffer = ((this->resY - (sectionDivider * 2)) - (txtHeight + choiceSize)) / 2;
+					txtBuffer = (this->resY - (sectionDivider * 2) - (txtHeight + choiceSize)) / 2;
 					//calculate image vertical buffer
-					imgBuffer = ((this->resY - (sectionDivider * 2)) - imgHeight) / 2;
+					imgBuffer = (this->resY - (sectionDivider * 2) - imgHeight) / 2;
 				//calculate Rects based on orientation
 				if (imgPos == LEFT) {
 					//calculate txtRect
-					txtRect = { ((sectionDivider * 2) + imgWidth), txtBuffer, txtWidth, txtHeight };
+					txtRect = { ((sectionDivider * 2) + imgWidth), (txtBuffer + sectionDivider), txtWidth, txtHeight };
 					//calculate imgRect
-					imgRect = { sectionDivider, imgBuffer, imgWidth, imgHeight };
+					imgRect = { sectionDivider, (sectionDivider + imgBuffer), imgWidth, imgHeight };
 					//calculate choiceMarker
 					choiceMarkerX = ((sectionDivider * 2) + imgWidth);
-					choiceMarkerY = (txtBuffer + txtHeight + choiceDivider);
+					choiceMarkerY = (sectionDivider + txtBuffer + txtHeight);
 				}
 				else {
 					//calculate txtRect
-					txtRect = { sectionDivider, txtBuffer, txtWidth, txtHeight };
+					txtRect = { sectionDivider, (txtBuffer + sectionDivider), txtWidth, txtHeight };
 					//calculate imgRect
-					imgRect = { ((sectionDivider * 2) + txtWidth), imgBuffer, imgWidth, imgHeight };
+					imgRect = { ((sectionDivider * 2) + txtWidth), (sectionDivider + imgBuffer), imgWidth, imgHeight };
 					//calculate choiceMarker
 					choiceMarkerX = sectionDivider;
-					choiceMarkerY = (txtBuffer + txtHeight + choiceDivider);
+					choiceMarkerY = (sectionDivider + txtBuffer + txtHeight);
 				}
 			}
 			else //placement is TOP
 			{
 				//calculate buffers
-				vertBuffer = (this->resY - (imgHeight + sectionDivider + txtHeight + choiceSize)) / 2;
+				vertBuffer = (this->resY - (imgHeight + (sectionDivider * 2) + txtHeight + choiceSize)) / 2;
 				txtBuffer = (this->resX - (txtWidth)) / 2;
 				imgBuffer = (this->resX - (imgWidth)) / 2;
 				//calculate txtRect
 				txtRect = { txtBuffer, (vertBuffer + imgHeight + sectionDivider), txtWidth, txtHeight };
 				//calculate imgRect
-				imgRect = { imgBuffer, vertBuffer, imgWidth, imgHeight };
+				imgRect = { imgBuffer,  (sectionDivider + vertBuffer), imgWidth, imgHeight };
 				//calculate choiceMarker
 				choiceMarkerX = txtBuffer;
-				choiceMarkerY = (vertBuffer + imgHeight + sectionDivider + txtHeight + choiceDivider);
+				choiceMarkerY = (sectionDivider + vertBuffer + imgHeight + sectionDivider + txtHeight);
 			}
 		}
 		else {
 			//calculate text vertical buffer
 			txtBuffer = ((this->resY - (sectionDivider * 2)) - (txtHeight + choiceSize)) / 2;
 			//set text placement
-			txtRect = { sectionDivider, txtBuffer, txtWidth, txtHeight };
+			txtRect = { sectionDivider, (txtBuffer + sectionDivider), txtWidth, txtHeight };
 			//calculate choiceMarker
 			choiceMarkerX = sectionDivider;
-			choiceMarkerY = (txtBuffer + txtHeight + choiceDivider);
+			choiceMarkerY = (sectionDivider + txtBuffer + txtHeight);
 		}
 
 		//do we need to draw an image?
