@@ -1,2 +1,2 @@
-# Venturer
-A choose your own adventure game
+# Venture
+A set of three choose your own adventure games
