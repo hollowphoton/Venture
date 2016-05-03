@@ -8,7 +8,7 @@ This is the header file for the game class
 
 //headers
 #include "headers/screen.h"
-#include "headers/page.h"
+#include "headers/book.h"
 
 //------------------------game class------------------------//
 class Game
@@ -19,7 +19,7 @@ public:
 	//methods
 	Game(); //constructor
 	~Game(); //destructor
-	void gameLoop(); //main game loop
+	void bookLoop(); //main book loop
 private:
 };
 

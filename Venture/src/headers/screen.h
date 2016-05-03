@@ -11,7 +11,7 @@ This is the header file for the screen class
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
 #include "headers/global.h"
-#include "headers/page.h"
+#include "headers/book.h"
 #include <string>
 #include <vector>
 
@@ -29,11 +29,11 @@ public:
 	//methods
 	Screen(const char* windowTitle, int width, int height); //constructor
 	~Screen(); //destructor
-	void drawPage(bool hasImg, imageLayout imgPos, pageType pgType, const char* imgPath, const char* textString, std::vector<Choice> choiceArray);
-	void drawTitle(std::string titleType, const char* imgPath, const char* textString, int waitTime);
+	//void drawPage(bool hasImg, imageLayout imgPos, pageType pgType, const char* imgPath, const char* textString, std::vector<Choice> choiceArray);
+	//void drawTitle(std::string titleType, const char* imgPath, const char* textString, int waitTime);
 	void draw2screen(SDL_Texture* thing, SDL_Rect place);
-private:
 	void cleanScreen();
+private:
 };
 
 #endif

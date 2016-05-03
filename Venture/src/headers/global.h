@@ -7,19 +7,19 @@ This is the header file for the page class
 #define GLOBAL_H
 
 //--------------------------enums----------------------------//
-enum pageType {
-	CHOICE,
-	CONTINUE,
-	DEATH,
-	DOOMED,
-	NEW_LIFE,
-	RETURN_HOME
-};
-enum imageLayout {
-	LEFT,
-	RIGHT,
-	TOP,
-	NONE
-};
+//enum pageType {           //<----------------------------------------------REDO
+//	CHOICE,
+//	CONTINUE,
+//	DEATH,
+//	DOOMED,
+//	NEW_LIFE,
+//	RETURN_HOME
+//};
+//enum imageLayout {           //<----------------------------------------------REDO
+//	LEFT,
+//	RIGHT,
+//	TOP,
+//	NONE
+//};
 
 #endif

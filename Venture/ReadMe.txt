@@ -9,30 +9,59 @@ the helpful features and systems that most modern games employ.
 
 ===============================-UP NEXT-===============================
 Next:
--move intro warning to the xml, include image for warning graphic
-	-make it a TOP continue page
-	-I'll have to bump a lot of stuff over, so this is a chance to
-	 split up some of the bigger pages that have issues with the
-	 drawing height. After this is done, revert TOP image scaling to
-	 1.8.
-	-pages to fix: triceratops, great wall, falling next to cadillac
-	 sign
-	-fix vertical buffers to account for header now
--text spacing for choices (after page txt) seems to differ page to page
--add mouse clicks for selecting options
--make the book class have the xml path as a parameter again
+-write title draw method
+-rewrite page draw method from scratch
+-redo page.h
+	-move everything into private?
+	-label each area
 
 Later:
+
+-recreate all images at a higher resolution
+-make the Book.drawTitle() method
+	-only ingest image for the middle
+	-draw book title, author, illustrator with real font
+	-need to modify the xml to add these as fields
+	-simplify image calculation
 -watch memory usage (I think things aren't being deconstructed?)
+-text spacing for choices (after page txt) seems to differ page to page
+-add mouse clicks for selecting options
+-figure out how to add italics/bold/alignment
+-make a game loop that starts up the book loop
+-move the creation of the window to the game loop
 -preload images possible?
 -do i need to pass 'screen' with the book.load() function?
--make excel output the XML file? then we dont have to worry
- about find/replace? would be nice if it could auto-dump into the
- project folders too.
 -is there some way to lock up the image, font, and xml so they
  can't be messed with?
 
 ===============================-CHANGES-===============================
+2016-05-02
+----------
+-remade constructor for book to include new parameters
+	-took out const char*, replaced them with strings
+
+2016-04-30
+----------
+-gutted page draw methods as they were for a complete rewrite
+-renamed page.h/cpp to book.h/cpp - its more apt
+-added a struct for pageType and use it in a map for easy lookups
+
+2016-04-25 through 2016-04-29
+-----------------------------
+-rewrote entire XLSM to redo how pages display. pages will no longer
+ be calculated as 3 types - its all custom now.
+-whole process is automated now, including automatic XML creation
+
+2016-04-24
+----------
+-decided to remove the header from the page display
+-added 'souvenir' and 'benguiat' fonts, the same fonts in the books
+
+2016-04-23
+----------
+-changed page header to actual text, shrunk it a bit as well.
+-made the book constructor have the xml path as a parameter again
+
 2016-04-22
 ----------
 -separated vars for the window border gap and the gap between text and

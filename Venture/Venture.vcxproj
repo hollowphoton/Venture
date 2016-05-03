@@ -129,13 +129,13 @@
   <ItemGroup>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\page.cpp" />
+    <ClCompile Include="src\book.cpp" />
     <ClCompile Include="src\screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\game.h" />
     <ClInclude Include="src\headers\global.h" />
-    <ClInclude Include="src\headers\page.h" />
+    <ClInclude Include="src\headers\book.h" />
     <ClInclude Include="src\headers\screen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
