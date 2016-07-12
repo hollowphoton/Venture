@@ -83,7 +83,7 @@ public:
 	Book(const char* xmlPath); //constructor
 	~Book(); //destructor
 	//void load(Screen &screen, int pageNum); //load a page                 //<----------------------------------------------REDO
-	//void drawTitle(Screen &screen, const char* imgPath, int waitTime); //load book title                 //<----------------------------------------------REDO
+	void drawIntro(Screen &screen);
 private:
 	rapidxml::file<> bFile;
 	rapidxml::xml_document<> bDoc;

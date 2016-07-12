@@ -10,10 +10,15 @@ the helpful features and systems that most modern games employ.
 ===============================-UP NEXT-===============================
 Next:
 -write title draw method
+	-use generic image and text draw functions!! best plan. put those in screen?
+	-need to figure out a good way to turn a string into const char*,
+	or maybe some other way?
 -rewrite page draw method from scratch
 -redo page.h
 	-move everything into private?
 	-label each area
+-use OPENGL, likely need to redo a lot? do after we upgrade everything
+	SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_OPENGL, &displayWindow, &displayRenderer);
 
 Later:
 

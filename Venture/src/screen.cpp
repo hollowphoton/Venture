@@ -14,7 +14,7 @@ This class controls SDL, including:
 	//constructor
 	Screen::Screen(const char* title, int width, int height) {
 		//window & renderer
-		SDL_CreateWindowAndRenderer(width, height, 0, &this->window, &this->renderer);
+		SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_OPENGL, &this->window, &this->renderer);
 		//set window title
 		SDL_SetWindowTitle(this->window, title);
 		this->resX = width;
@@ -42,7 +42,7 @@ This class controls SDL, including:
 	}
 
 	//draw to screen
-	void Screen::draw2screen(SDL_Texture* thing, SDL_Rect place) {
+	void Screen::renderSurface(SDL_Texture* thing, SDL_Rect place) {
 		//draw text to screen
 		SDL_RenderCopy(this->renderer, thing, NULL, &place);
 		SDL_RenderPresent(this->renderer);

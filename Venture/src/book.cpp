@@ -184,97 +184,139 @@ This class controls the displaying of book pages, including:
 	//---------------------------OLD-----------------------------------------------------------------------------------------------------//
 
 
-//
-//	//draw image title
-//	void Book::drawTitle(Screen &screen, const char* imgPath, int waitTime) {
-//
-//		//clean screen
-//		screen.cleanScreen();
-//
-//		//init vars
-//		int titleWidth, titleHeight, titleHBuffer, titleWBuffer, screenEdge;
-//		double titleRatio;
-//		bool titlePortrait;
-//		SDL_Texture* titleTexture;
-//		SDL_Rect titleRect;
-//
-//		//prepare title
-//			//set screenEdge
-//			screenEdge = int(screen.resY / 5);
-//			//draw image to surface
-//			screen.surface = IMG_Load(imgPath);
-//			//create texture
-//			titleTexture = SDL_CreateTextureFromSurface(screen.renderer, screen.surface);
-//			//get image resolution & ratio
-//			SDL_QueryTexture(titleTexture, NULL, NULL, &titleWidth, &titleHeight);
-//			//get image proportions and calculate ratio
-//			if (titleHeight > titleWidth) {
-//				titlePortrait = true;
-//				titleRatio = (double(titleWidth) / double(titleHeight));
-//			}
-//			else {
-//				titlePortrait = false;
-//				titleRatio = (double(titleHeight) / double(titleWidth));
-//			}
-//
-//		//determine title draw size
-//
-//			//calculate image width & check if the width exceeds window size
-//			if (titleWidth > screen.resX - (screenEdge * 2)) { 
-//
-//
-//			}
-//			else {
-//
-//
-//			}
-//
-//			//calculate image height
-//			titleHeight = int(screen.resY - (screenEdge * 2));
-//
-//		//calculate width based on imgPortrait
-//		if (titlePortrait == true) {
-//			titleWidth = int(titleHeight * titleRatio);
-//		}
-//		else {
-//			titleWidth = int(titleHeight / titleRatio);
-//		}
-//
-//		//if imgWidth is still too big for our screen, we need to recalculate
-//		if (titleWidth > screen.resX - (screenEdge * 2)) {
-//			//set imgWidth to max available
-//			titleWidth = screen.resX - (screenEdge * 2);
-//			//calculate width based on imgPortrait
-//			if (titlePortrait == true) {
-//				titleHeight = int(titleWidth / titleRatio);
-//			}
-//			else {
-//				titleHeight = int(titleWidth * titleRatio);
-//			}
-//		}
-//
-//		//calculate vert + horz buffers, then final rect
-//			//vertical
-//			titleHBuffer = (screen.resY - (screenEdge * 2) - titleHeight) / 2;
-//			//horizontal
-//			titleWBuffer = (screen.resX - (screenEdge * 2) - titleWidth) / 2;
-//			//calculate titleRect
-//			titleRect = { (screenEdge + titleWBuffer), (screenEdge + titleHBuffer), titleWidth, titleHeight };
-//
-//		//draw image where its supposed to go
-//		screen.draw2screen(titleTexture, titleRect);
-//
-//		//title hold time
-//		SDL_Delay(waitTime * 1000);
-//
-//	}
-////--------------------------------------------------------------------------------------------------------------------------------//
-//
-//
-//
-//
-//
-//
+
+	//draw image title
+	void Book::drawIntro(Screen &screen) {
+
+		//clean screen
+		screen.cleanScreen();
+		
+		//init vars
+		int tempWidth, tempHeight, imgSize, titleFont, authFont, illusFont, maxWidth;
+		std::string tempString();
+
+		//set vars
+		imgSize = int(screen.resY / 3);
+		titleFont = int(screen.resY / 18);
+		authFont = int(screen.resY / 45);
+		illusFont = int(screen.resY / 60);
+
+		//prep title
+		tempString = this->title;
+			//draw text to surface
+			screen.surface = TTF_RenderText_Blended_Wrapped(TTF_OpenFont("fonts/benguiat_bold.ttf", titleFont), this->title , { 100,100,100 }, txtSpace);
+			//create texture
+			txtTexture = SDL_CreateTextureFromSurface(this->renderer, this->surface);
+
+			SDL_QueryTexture(txtTexture, NULL, NULL, &txtWidth, &txtHeight);
+
+
+
+
+
+
+		//draw intro
+			//draw title
+			screen.renderSurface(txtTexture, txtRect);
+
+
+
+
+
+
+
+
+
+
+		SDL_Texture* titleTexture;
+		SDL_Rect titleRect;
+		SDL_Texture* authTexture;
+		SDL_Rect authRect;
+		SDL_Texture* imgTexture;
+		SDL_Rect imageRect;
+		SDL_Texture* illusTexture;
+		SDL_Rect illusRect;
+
+
+		//p
+
+		//prepare title
+			//set screenEdge
+			screenEdge = int(screen.resY / 5);
+			//draw image to surface
+			screen.surface = IMG_Load(imgPath);
+			//create texture
+			titleTexture = SDL_CreateTextureFromSurface(screen.renderer, screen.surface);
+			//get image resolution & ratio
+			SDL_QueryTexture(titleTexture, NULL, NULL, &titleWidth, &titleHeight);
+			//get image proportions and calculate ratio
+			if (titleHeight > titleWidth) {
+				titlePortrait = true;
+				titleRatio = (double(titleWidth) / double(titleHeight));
+			}
+			else {
+				titlePortrait = false;
+				titleRatio = (double(titleHeight) / double(titleWidth));
+			}
+
+		//determine title draw size
+
+			//calculate image width & check if the width exceeds window size
+			if (titleWidth > screen.resX - (screenEdge * 2)) { 
+
+
+			}
+			else {
+
+
+			}
+
+			//calculate image height
+			titleHeight = int(screen.resY - (screenEdge * 2));
+
+		//calculate width based on imgPortrait
+		if (titlePortrait == true) {
+			titleWidth = int(titleHeight * titleRatio);
+		}
+		else {
+			titleWidth = int(titleHeight / titleRatio);
+		}
+
+		//if imgWidth is still too big for our screen, we need to recalculate
+		if (titleWidth > screen.resX - (screenEdge * 2)) {
+			//set imgWidth to max available
+			titleWidth = screen.resX - (screenEdge * 2);
+			//calculate width based on imgPortrait
+			if (titlePortrait == true) {
+				titleHeight = int(titleWidth / titleRatio);
+			}
+			else {
+				titleHeight = int(titleWidth * titleRatio);
+			}
+		}
+
+		//calculate vert + horz buffers, then final rect
+			//vertical
+			titleHBuffer = (screen.resY - (screenEdge * 2) - titleHeight) / 2;
+			//horizontal
+			titleWBuffer = (screen.resX - (screenEdge * 2) - titleWidth) / 2;
+			//calculate titleRect
+			titleRect = { (screenEdge + titleWBuffer), (screenEdge + titleHBuffer), titleWidth, titleHeight };
+
+		//draw image where its supposed to go
+		screen.draw2screen(titleTexture, titleRect);
+
+		//title hold time
+		SDL_Delay(waitTime * 1000);
+
+	}
+//--------------------------------------------------------------------------------------------------------------------------------//
+
+
+
+
+
+
 
 
 

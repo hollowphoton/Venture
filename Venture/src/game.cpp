@@ -47,6 +47,9 @@ This class controls the main game loop, including:
 		//create The Cave of Time book from xml
 		Book TheCaveOfTime("xml/1_tcot.xml");
 
+		//load up game intro
+		TheCaveOfTime.drawIntro(screen);
+
 		//load up game title
 		//TheCaveOfTime.drawTitle(screen, "img/Title.png", 4); //<----------------------------------------------REDO
 

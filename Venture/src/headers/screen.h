@@ -29,9 +29,8 @@ public:
 	//methods
 	Screen(const char* windowTitle, int width, int height); //constructor
 	~Screen(); //destructor
-	//void drawPage(bool hasImg, imageLayout imgPos, pageType pgType, const char* imgPath, const char* textString, std::vector<Choice> choiceArray);
-	//void drawTitle(std::string titleType, const char* imgPath, const char* textString, int waitTime);
-	void draw2screen(SDL_Texture* thing, SDL_Rect place);
+	
+	void renderSurface(SDL_Texture* thing, SDL_Rect place);
 	void cleanScreen();
 private:
 };
