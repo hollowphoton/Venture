@@ -8,38 +8,45 @@ the helpful features and systems that most modern games employ.
 
 
 ===============================-UP NEXT-===============================
-Next:
--write title draw method
-	-use generic image and text draw functions!! best plan. put those in screen?
-	-need to figure out a good way to turn a string into const char*,
-	or maybe some other way?
--rewrite page draw method from scratch
--redo page.h
-	-move everything into private?
-	-label each area
--use OPENGL, likely need to redo a lot? do after we upgrade everything
-	SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_OPENGL, &displayWindow, &displayRenderer);
+-make the keystroke handler just shoot the pressed key to a map
+	-if recognized in list - execute that funciton
+	-do nothing if not found in map
+-text spacing for choices (after page txt) seems to differ page to page
+	-can i tell what the chunk should be? if its only based on the last
+	line?
+	-do some green box testing
+	-maybe add an extra line at the end of the text in Excel - and no
+	space before the choices?
+-redo includes?
+-make everything private that can be
+-label each area
 
 Later:
-
+------
+-figure out italics and other text formatting?
 -recreate all images at a higher resolution
--make the Book.drawTitle() method
-	-only ingest image for the middle
-	-draw book title, author, illustrator with real font
-	-need to modify the xml to add these as fields
-	-simplify image calculation
 -watch memory usage (I think things aren't being deconstructed?)
--text spacing for choices (after page txt) seems to differ page to page
 -add mouse clicks for selecting options
 -figure out how to add italics/bold/alignment
 -make a game loop that starts up the book loop
 -move the creation of the window to the game loop
 -preload images possible?
--do i need to pass 'screen' with the book.load() function?
 -is there some way to lock up the image, font, and xml so they
  can't be messed with?
 
 ===============================-CHANGES-===============================
+2016-07-12 through 2016-07-14
+-----------------------------
+-gutted and rewrote entire page draw function to use new hardcoded info
+ from the XLSM updates in late April
+-all page layouts are now completely customized
+-reduced the total lines of code by more than 75%
+-wrote a new draw book title function from scratch - completely dynamic
+-was tempted by OpenGL, messed with it a bit and decided it wasn't
+ needed for this simple of project
+-wrote a new draw logo function for the intro titles
+-added numpad # detection, and true 'any' key detection for continues
+
 2016-05-02
 ----------
 -remade constructor for book to include new parameters
